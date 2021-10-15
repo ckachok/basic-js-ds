@@ -19,7 +19,40 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  */
 
-module.exports = function removeKFromList(/* l, k */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+module.exports = function removeKFromList(l, k) {
+  let head = l;
+  let tail = l;
+  const value = k;
+
+  // Если нет указателя значит список пуст
+  if (!head) {
+    return null;
+  }
+
+  // Если указатель должен быть удален,
+  // то делаем следующий узел новым указателем
+  while (head && head.value === value) {
+    head = head.next;
+  }
+
+  let currentNode = head;
+
+  // Если следующий узел должен быть удален, делаем узел через один,
+  // следующим для проверки.
+  // Перебираем все узлы и удаляем их, если их значение равно указанному.
+  if (currentNode !== null) {
+    while (currentNode.next) {
+      if (currentNode.next.value === value) {
+        currentNode.next = currentNode.next.next;
+      } else {
+        currentNode = currentNode.next;
+      }
+    }
+  }
+
+  // Проверка, должен ли конец списка (tail) быть удален
+  if (tail && tail.value === value) {
+    tail = currentNode;
+  }
+  return head;
 }
